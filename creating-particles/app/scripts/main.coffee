@@ -1,7 +1,7 @@
 $(document).ready(->
   # Viewport Constraints
   WIDTH = 400
-  HEIGHT = 500
+  HEIGHT = 300
 
   # Viewport and Rendering Properties
   VIEW_ANGLE = 45
@@ -97,7 +97,7 @@ $(document).ready(->
         if particle.y < -200 then particle.y = 200
 
         # Move the particle along the y-axis at a predetermined speed
-        particle.y -= Math.random() * 2
+        particle.y -= Math.random() * 0.1
 
     # Let the renderer know that the vertices need to be rerendered
     particleSystem.geometry.__dirtyVertices = true
