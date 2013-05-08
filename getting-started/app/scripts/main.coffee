@@ -43,7 +43,7 @@ $(document).ready(->
   # Create the sphere mesh
   sphere = new THREE.Mesh(
     new THREE.SphereGeometry(radius, segments, rings),
-    new THREE.MeshLambertMaterial({color: 0xCC0000})
+    new THREE.MeshLambertMaterial({color: 0xCC1133})
   )
 
   # Add the sphere mesh to the scene
