@@ -36,33 +36,26 @@ $(document).ready(->
   ##############################
   # SET UP THE MESHES
   ##############################
-  particleCount = 2000
-  particles = new THREE.Geometry()
-  pMaterial = new THREE.ParticleBasicMaterial(
-    color: 0xFFFFFF
-    size: 20
-    map: THREE.ImageUtils.loadTexture("images/particle.png")
-    blending: THREE.AdditiveBlending
-    transparent: true
+  radius = 50
+  segments = 16
+  rings = 16
+
+  vShader = $("#vertexshader")
+  fShader = $("#fragmentshader")
+
+  console.log "Vertex Shader: ", vShader, "Text: #{vShader.text()}"
+  console.log "Fragment Shader: ", fShader, "Text: #{fShader.text()}"
+
+  # Create the sphere mesh
+  sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(radius, segments, rings),
+    new THREE.ShaderMaterial(
+      vertexshader: vShader.text()
+      fragmentshader: fShader.text()
+    )
   )
 
-  # Create and add the particles as vertices in the new geometry
-  for p in [0..particleCount] by 1
-    pX = Math.random()*500 - 250
-    pY = Math.random()*500 - 250
-    pZ = Math.random()*500 - 250
-    particle = new THREE.Vector3(pX,pY,pZ)
-
-    particles.vertices.push(particle)
-
-  # Create the particle system
-  particleSystem = new THREE.ParticleSystem(particles, pMaterial)
-
-  # Enable particle sorting (?)
-  particleSystem.sortParticles = true
-
-  # Add the particle system to the scene
-  scene.add(particleSystem)
+  scene.add(sphere)
 
   ##############################
   # SET UP THE LIGHTS
@@ -77,38 +70,21 @@ $(document).ready(->
   ##############################
   # SET UP THE RENDER LOOP
   ##############################
-  # renderer.render(scene, camera)
-
-  window.particles = particles
+  renderer.render(scene, camera)
   # return true
 
 
-  # Declare the animation loop
-  update = ->
-    # Start the system rotating
-    particleSystem.rotation.y += 0.01
+  # # # Declare the animation loop
+  # update = ->
+  #   # particleSystem.geometry.__dirtyVertices = true
 
-    # Add velocity to the particles
-    pCount = particleCount
-    while pCount-- > -1
-      particle = particles.vertices[pCount]
+  #   # Draw the scene
+  #   renderer.render(scene, camera)
 
-      if particle
-        if particle.y < -200 then particle.y = 200
-
-        # Move the particle along the y-axis at a predetermined speed
-        particle.y -= Math.random() * 2
-
-    # Let the renderer know that the vertices need to be rerendered
-    particleSystem.geometry.__dirtyVertices = true
-
-    # Draw the scene
-    renderer.render(scene, camera)
-
-    # Set up the next call of update()
-    requestAnimFrame(update)
+  #   # Set up the next call of update()
+  #   requestAnimFrame(update)
 
 
-  requestAnimFrame(update)
+  # requestAnimFrame(update)
 
 )

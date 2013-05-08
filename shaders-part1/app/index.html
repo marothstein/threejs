@@ -14,6 +14,14 @@
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
+
+    <style>
+      #container {
+        background: #000;
+        width: 400px;
+        height: 300px;
+      }
+    </style>
   </head>
   <body>
     <div id="container" class="container">
@@ -43,24 +51,39 @@
     <script src="components/threejs/build/three.js"></script>
     <!-- endbuild -->
 
+    <!-- shaders -->
+    <script type="x-shader/x-vertex" id="vertexshader">
+
+        // switch on high precision floats
+        #ifdef GL_ES
+        precision highp float;
+        #endif
+
+        void main()
+        {
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+        }
+
+      </script>
+
+      <script type="x-shader/x-fragment" id="fragmentshader">
+
+        #ifdef GL_ES
+        precision highp float;
+        #endif
+
+        void main()
+        {
+          gl_FragColor  = vec4(1.0,0.0,1.0,1.0);
+        }
+
+      </script>
+    <!-- end shaders -->
+
     <!-- build:js(.tmp) scripts/coffee.js -->
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
 
-    <!-- build:js scripts/plugins.js -->
-    <script src="components/sass-bootstrap/js/bootstrap-affix.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-alert.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-dropdown.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-tooltip.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-modal.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-transition.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-button.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-popover.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-typeahead.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-carousel.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-scrollspy.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-collapse.js"></script>
-    <script src="components/sass-bootstrap/js/bootstrap-tab.js"></script>
-    <!-- endbuild -->
+
 </body>
 </html>

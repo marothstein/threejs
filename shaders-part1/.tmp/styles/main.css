@@ -6803,8 +6803,3 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
 body {
   background-color: burlywood;
 }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/gojira\/Development\/personal\/threejs\/shaders-part1\/app\/styles\/main\.scss}line{font-family:\0000315}}
-canvas {
-  background-color: black;
-}

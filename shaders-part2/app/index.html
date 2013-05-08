@@ -1,0 +1,115 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Shaders Tutorial Part 2</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+
+    <style>
+      #container {
+        background: #000;
+        border: 1px gray solid;
+/*        width: 400px;
+        height: 300px;*/
+      }
+
+      canvas {
+        /*background: black;*/
+        border: 1px white solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" class="container">
+      <!-- <div class="hero-unit">
+        <h1>Creating Particles Tutorial</h1>
+        <p><a href="http://www.aerotwist.com/tutorials/creating-particles-with-three-js/">Original Tutorial Link</a></p>
+      </div> -->
+    </div>
+
+    <script type="text/javascript">
+
+    // @see http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    window.requestAnimFrame = (function(){
+      return  window.requestAnimationFrame       ||
+              window.webkitRequestAnimationFrame ||
+              window.mozRequestAnimationFrame    ||
+              window.oRequestAnimationFrame      ||
+              window.msRequestAnimationFrame     ||
+              function(/* function */ callback, /* DOMElement */ element){
+                window.setTimeout(callback, 1000 / 60);
+              };
+    })();
+    </script>
+
+    <!-- build:js scripts/main.js -->
+    <script src="components/jquery/jquery.js"></script>
+    <script src="components/threejs/build/three.js"></script>
+    <!-- endbuild -->
+
+    <!-- shaders -->
+    <script type="x-shader/x-vertex" id="vertexshader">
+      // switch on high precision floats
+      #ifdef GL_ES
+      precision highp float;
+      #endif
+
+      uniform float amplitude;
+      attribute float displacement;
+      varying vec3 vNormal;
+
+      void main() {
+        vNormal = normal;
+
+        vec3 newPosition = position + normal * vec3(displacement*amplitude);
+
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
+      }
+
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentshader">
+
+      #ifdef GL_ES
+      precision highp float;
+      #endif
+
+      varying vec3 vNormal;
+
+      void main() {
+
+        // calculate the dot product and clamp 0 --> 1
+        // rather than -1 --> 1
+        vec3 light = vec3(0.0,0.0,1.0);
+
+        // normalize the light vector
+        light = normalize(light);
+
+        // calculate the dot product (vNormalxlight)
+        float dProd = max(0.0, dot(vNormal, light));
+
+        gl_FragColor  = vec4(
+          dProd, // R
+          dProd, // G
+          dProd, // B
+            1.0  // A
+        );
+      }
+
+    </script>
+    <!-- end shaders -->
+
+    <!-- build:js(.tmp) scripts/coffee.js -->
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+
+
+</body>
+</html>
